@@ -1,0 +1,83 @@
+<!ELEMENT alias ( #PCDATA ) >
+
+<!ELEMENT aliases ( alias+ ) >
+
+<!ELEMENT artist ( #PCDATA | aliases | artist | dataquality | ingroups | members | name | namevariations | profile | realname | related | urls )* >
+<!ATTLIST artist id ID #REQUIRED >
+
+<!ELEMENT artists ( artist+ ) >
+
+<!ELEMENT country ( #PCDATA ) >
+
+<!ELEMENT dataquality ( #PCDATA ) >
+
+<!ELEMENT duration ( #PCDATA ) >
+
+<!ELEMENT extra ( master+ ) >
+
+<!ELEMENT format ( #PCDATA ) >
+
+<!ELEMENT formats ( format+ ) >
+
+<!ELEMENT genre ( #PCDATA ) >
+
+<!ELEMENT genres ( genre+ ) >
+
+<!ELEMENT identifier ( #PCDATA ) >
+
+<!ELEMENT identifiers ( identifier+ ) >
+
+<!ELEMENT ingroups ( artist+ ) >
+
+<!ELEMENT master ( artist | artists | data_quality | genres | title | related | role | styles | videos | year )* >
+<!ATTLIST master id ID #REQUIRED >
+
+<!ELEMENT masters ( master+ ) >
+
+<!ELEMENT members ( artist+ ) >
+
+<!ELEMENT name ( #PCDATA ) >
+
+<!ELEMENT namevariation ( #PCDATA ) >
+
+<!ELEMENT namevariations ( namevariation+ ) >
+
+<!ELEMENT position ( #PCDATA ) >
+
+<!ELEMENT profile ( #PCDATA ) >
+
+<!ELEMENT realname ( #PCDATA ) >
+
+<!ELEMENT related ( extra | masters | releases | tracks )* >
+
+<!ELEMENT release ( artists | country | dataquality | formats | identifiers | master | name | related | releasedate | status | videos )* >
+<!ATTLIST release id ID #REQUIRED >
+
+<!ELEMENT releasedate ( #PCDATA ) >
+
+<!ELEMENT releases ( release+ ) >
+
+<!ELEMENT role ( #PCDATA ) >
+
+<!ELEMENT src ( #PCDATA ) >
+
+<!ELEMENT status ( #PCDATA ) >
+
+<!ELEMENT style ( #PCDATA ) >
+
+<!ELEMENT styles ( style+ ) >
+
+<!ELEMENT title ( #PCDATA ) >
+
+<!ELEMENT track ( duration | position | title )* >
+<!ATTLIST track id ID #REQUIRED >
+
+<!ELEMENT tracks ( track+ ) >
+
+<!ELEMENT url ( #PCDATA ) >
+
+<!ELEMENT urls ( url* ) >
+
+<!ELEMENT videos ( src+ ) >
+
+<!ELEMENT year ( #PCDATA ) >

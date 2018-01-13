@@ -1,0 +1,9 @@
+#deny from all
+RewriteEngine on
+#RedirectMatch ^/$ /
+#RewriteRule ^index.php$ disp.php
+#RewriteRule "^([a-z]{1,2})/([^/]+)$" "disp.php?q=$1&i1=$2&i2=$3&i3=$4"
+#RewriteRule "^a" "index.php"
+RewriteRule "^[a-z]{1,2}/[^\.]*$" "index.php"
+#RewriteRule "^([a-z]{1,2})/(.+)/(.+)$" "disp.php?q=$1&i1=$2&i2=$3"
+#RewriteRule  ^[a-z]{1,2}/[^/]+(/[^/]+)?(/[^/]+)?$ disp.php

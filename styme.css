@@ -1,0 +1,122 @@
+
+body {
+  margin: 0px 0px 0px 0px;
+  font-family: "Helvetica","Arial",sans-serif;
+  color: #333333;
+}
+header {
+  padding: 0% 4% 0% 4%;
+  display: table;
+  vertical-align:middle;
+  width:100%;
+  height:83px;
+  border-bottom: 4px solid #333333;
+}
+header div {
+  vertical-align:middle;
+  display:table-cell;
+}
+form {
+  vertical-align:middle;
+  display: inline-block;
+}
+#search input{
+  color: #333333;
+  font-size: 1.2em;
+  /*background-color:LIGHTGREY;*/
+  outline:none;
+  border-style:solid;
+  height:30px;
+  padding: 0px 0px 0px 10px;
+}
+#related {
+	margin: 0% 0% 0% 2%;
+	
+}
+.choices{
+	display:none;
+}
+label{
+	display:inline-block;
+	cursor:pointer;
+}
+.choices:checked + label {
+	font-weight:bold;
+}
+button{
+  font-size: 1.3em;
+  color: LIGHTGREY;
+  height:34px;
+  background-color:WHITE;
+  outline:none;
+  border-style:solid solid solid none;
+}
+#search {
+  padding: 0% 0% 0% 3%;
+}
+#logo {
+  width:0.1%;
+}
+#logo img {
+  height:53px;
+}
+#content {
+  padding: 2% 6% 0% 6%;
+  
+}
+table {
+  font-size:1em;
+border-collapse: collapse;
+}
+.vertTable {
+	width:100%;
+}
+.vertTable thead {
+	font-size:1.4em;
+}
+.vertTable tbody {
+	font-size:1.2em;
+}
+tr {
+  border-bottom: 1px solid LIGHTGREY;
+}
+th, td {
+	text-align:left;
+	padding: 1% 1% 1% 0%;
+	vertical-align:top;
+}
+.vertTable th {
+}
+.horTable {
+	/*table-layout:fixed;*/
+	width:100%;
+	margin-bottom:2%;
+}
+.horTable thead {
+	font-size:1.4em;
+}
+.horTable tbody {
+	font-size:1.2em;
+	padding: 0% 0% 0% 2%;
+}
+.horTable th,.horTable td {
+	white-space: pre-wrap;
+}
+caption .title{
+	font-weight:bold;
+	font-size:2.3em;
+	margin: 3% 0% 1% 0%;
+}
+caption {
+	text-align:left;
+}
+.code{
+	font-family:"Courier";
+	font-size:1.3em;
+	border: 1px solid LIGHTGREY;
+	background-color: whitesmoke;
+	padding: 1% 1% 1% 1%;
+}
+a {
+  color: inherit; /* blue colors for links too */
+}
