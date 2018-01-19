@@ -1,150 +1,140 @@
+var body
+var content;
+var header;
+var input;
+var caption;
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <title>Diiscogs</title>
-  <link rel="stylesheet" href="/styme.css"></link>
-<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
-<script src="/lb/jquery-1.whatever.js"></script>
-  <script>
-    var body
-    var content;
-    var header;
-    var input;
-    var caption;
-
-    var loadMoreWhenReady
-    var loaded
-    var clickedLink
-    var prev
-    var alreadyZoomed
-    var zoomed
-    var scrollStopped
-    var moved=false;
-    var qa
-    var i1a
-    var i2a
-    var i3a
-    var na
-    var initScroll=new Object();
-    var prevScroll= new Object();
-    var zoomRatio=0.14;
-    var ignoreScroll=false;
-    var widthToWindowWidth=false;
-    var mousePos=new Object();
-    var inp=new Object();
-    var inpL=new Object();
+var loadMoreWhenReady
+var loaded
+var clickedLink
+var prev
+var alreadyZoomed
+var zoomed
+var scrollStopped
+var moved=false;
+var qa
+var i1a
+var i2a
+var i3a
+var na
+var initScroll=new Object();
+var prevScroll= new Object();
+var zoomRatio=0.14;
+var ignoreScroll=false;
+var widthToWindowWidth=false;
+var mousePos=new Object();
+var inp=new Object();
+var inpL=new Object();
 
 
-    var resultsPerPage=25;
-    var urlParamStartIndex=window.location.href.indexOf('/', 7)+1;
-    //request object
-    var rq = new Object();
-    //action,type,value,min,max
-    var propNames=['a', 't', 'v', 'mn', 'mx'];
-    var types={'a':'Artists', 'm':'Masters', 'l':'Labels', 'r':'Releases', 't':'Tracks'};
-    var codes=['SQL','XML'];
-    var chosen={'codes':null,'searchOn':'Artists','relatedForm':0}; 
-    var pt=rq.t;
+var resultsPerPage=25;
+var urlParamStartIndex=window.location.href.indexOf('/', 7)+1;
+//request object
+var rq = new Object();
+//action,type,value,min,max
+var propNames=['a', 't', 'v', 'mn', 'mx'];
+var types={'a':'Artists', 'm':'Masters', 'l':'Labels', 'r':'Releases', 't':'Tracks'};
+var codes=['SQL','XML'];
+var chosen={'codes':null,'searchOn':'Artists','relatedForm':0}; 
+var pt=rq.t;
 
-    var rP=window.innerWidth/window.innerHeight;
-    var pfvd_ctx;
-    var gn=Math.floor(window.innerHeight/275)+2;
-    var cont
-    function addBasicLayout() {
-      body=$('body');
+var rP=window.innerWidth/window.innerHeight;
+var pfvd_ctx;
+var gn=Math.floor(window.innerHeight/275)+2;
+var cont
+function addBasicLayout() {
+	body=$('body');
 	header=$('<header></header>').appendTo(body);
 	logo=$('<div id="logo"><a href="/p/0/0"><img src="/img/diiscogs.png"/></a></div>').appendTo(header);
 	search=$('<div id="search"><input type="text" name="search" ><button type="submit">search</button></div>').appendTo(header);
 	select=$('<div id="select"></div>').appendTo(search);
-      content=$('<div id="content"></div>').appendTo(body);
-    }
-    $(document).ready(function(){
-	addBasicLayout();
-	input=$('input');
-	display();
-	console.log("j");
-	var timeoutID = null;
-	var stateTimeOut = null;
+	content=$('<div id="content"></div>').appendTo(body);
+}
+$(document).ready(function(){
+		addBasicLayout();
+		input=$('input');
+		display();
+		console.log("j");
+		var timeoutID = null;
+		var stateTimeOut = null;
 
-  	function updateSearchResults(str) {
+		function updateSearchResults(str) {
 		stateLink({a:'s',t:'a',v:str});
-  	}
-  	input.keyup(function(e) {
-    		clearTimeout(timeoutID);
-    		timeoutID = setTimeout(updateSearchResults.bind(undefined, e.target.value), 50);
-    		//stateTimeOut = setTimeout(function(s){ rq={a:'s',t:'a',v:str}; puushState();}.bind(undefined, e.target.value), 500);
-  	});
-
-	$('button').on('click', function(event){
-		stateLink({a:'s',t:'a',v:input.val()})	
-});
-
-	$(document).on('click', 'a', function(event){
-		if(this.href.startsWith('http://'+document.domain) && !this.href.endsWith('/img/schema.png') && !this.href.endsWith('/dl/discogs.dtd')){
-			event.preventDefault();
-			event.stopPropagation();
-			clickedLink=this;
-			//console.log("merdouille")
-			goToLink(this.href);
 		}
-        });
-	//$(document).on('change','.choices',function(event){
-	$(document).on('change','.choices',function(event){
-		var id=$(this).attr("id");
-		console.log($(this).attr("id"));
-		var formID=$(this).parent().attr('id');
-		/*if($(this).prop('checked')){
-			$(this).prop('checked',false);
-			chosen[formID]=null;
-			updateChoices();
-		}else{*/
-			chosen[formID]=id;
-			var options=$(this).parent().siblings('.choosed');
-			var choice=options.filter('[id$='+id+']');
-			console.log(options);
-			console.log(choice);
-			options.not(choice).hide();
-			choice.show();
-	//	}
-	});
-	
-	/*$('input[type=radio]').on('change', function(event) {
-		console.log('change');
-		alert(this.val()); 
-	});*/
-	window.onpopstate=function(event) {
-		console.log('popstate:');
-		console.log(event.state);
-		linkRestore(event.state);
-	};
-    
-    })
+		input.keyup(function(e) {
+				clearTimeout(timeoutID);
+				timeoutID = setTimeout(updateSearchResults.bind(undefined, e.target.value), 50);
+				//stateTimeOut = setTimeout(function(s){ rq={a:'s',t:'a',v:str}; puushState();}.bind(undefined, e.target.value), 500);
+				});
+
+		$('button').on('click', function(event){
+				stateLink({a:'s',t:'a',v:input.val()})	
+				});
+
+		$(document).on('click', 'a', function(event){
+				if(this.href.startsWith('http://'+document.domain) && !this.href.endsWith('/img/schema.png') && !this.href.endsWith('/dl/discogs.dtd')){
+				event.preventDefault();
+				event.stopPropagation();
+				clickedLink=this;
+				//console.log("merdouille")
+				goToLink(this.href);
+				}
+				});
+		//$(document).on('change','.choices',function(event){
+		$(document).on('change','.choices',function(event){
+				var id=$(this).attr("id");
+				console.log($(this).attr("id"));
+				var formID=$(this).parent().attr('id');
+				/*if($(this).prop('checked')){
+				  $(this).prop('checked',false);
+				  chosen[formID]=null;
+				  updateChoices();
+				  }else{*/
+				chosen[formID]=id;
+				var options=$(this).parent().siblings('.choosed');
+				var choice=options.filter('[id$='+id+']');
+				console.log(options);
+				console.log(choice);
+				options.not(choice).hide();
+				choice.show();
+				//	}
+				});
+
+		/*$('input[type=radio]').on('change', function(event) {
+		  console.log('change');
+		  alert(this.val()); 
+		  });*/
+		window.onpopstate=function(event) {
+			console.log('popstate:');
+			console.log(event.state);
+			linkRestore(event.state);
+		};
+
+})
 function display(){
 	if(rq.a == undefined){
-                 var crtUrl=window.location.href;
-                 switch(crtUrl.substring(urlParamStartIndex)){
+		var crtUrl=window.location.href;
+		switch(crtUrl.substring(urlParamStartIndex)){
 			case 'index.php':
 			case '/':
 			case '':
-                        	console.log('no urlParams');
-                        	stateLink({a:'p', t:'0', v:'0'});
+				console.log('no urlParams');
+				stateLink({a:'p', t:'0', v:'0'});
 				break;
 			default:
-                        	goToLink(window.location.href);
+				goToLink(window.location.href);
 		}
-         }
+	}
 }
 function stateLink(i){
-	 link(i);
-	 puushState();
+	link(i);
+	puushState();
 }
 function goToLink(linkUrl){
 	console.log("going to "+linkUrl);
-        urlParamToInpObj(linkUrl);
+	urlParamToInpObj(linkUrl);
 	linkRestore(rq);
-	 puushState();
+	puushState();
 }
 function linkRestore(i){
 	if(i.a == 's') {
@@ -155,7 +145,7 @@ function linkRestore(i){
 function link(i){
 	rq=i;
 	if(rq.a == 'd' || rq.a == 's' || rq.a == 'p' ) {
-                //puushState();
+		//puushState();
 		console.log('');
 		clearContent();
 		if(rq.a == 's'){
@@ -173,7 +163,7 @@ function link(i){
 			}
 		}
 	}
-	
+
 	if(rq.v != ''){
 		getJson(rq);
 	}
@@ -183,10 +173,10 @@ function urlParamToInpObj(fullUrl) {
 	var dat=decodeURI(fullUrl).substring(urlParamStartIndex).split("/");
 	console.log(dat);
 	var i, m
-	for(i=0;i<5;i++){
-		m=propNames[i]
-		rq[m]=dat[i];
-	}
+		for(i=0;i<5;i++){
+			m=propNames[i]
+				rq[m]=dat[i];
+		}
 }
 function clearContent(){
 	console.log('erasing page');
@@ -194,7 +184,7 @@ function clearContent(){
 }
 function puushState(method) {
 	console.log('pushingState:');
-        console.log(rq);
+	console.log(rq);
 	if(method == undefined){
 		history.pushState(rq, '', makeUrl(rq));
 	}
@@ -216,20 +206,20 @@ function makeUrl(i) {
 	return url;
 }
 function getJson(input){
-        //console.log(input);
-	
-        $.ajax({
-                url: '/jax.php',
-                type: 'POST',
-                dataType: 'json',
-                data: input,
-                success: function(data){
-                        handleResponse(data);
-                },
-                error: function (){
-                        alert('request failed');
-                }
-         });
+	//console.log(input);
+
+	$.ajax({
+url: '/jax.php',
+type: 'POST',
+dataType: 'json',
+data: input,
+success: function(data){
+handleResponse(data);
+},
+error: function (){
+alert('request failed');
+}
+});
 }
 function handleResponse(json) {
 	//console.log(json);
@@ -237,7 +227,7 @@ function handleResponse(json) {
 	switch(rq.a) {
 		case 'd':
 			displayEntry(json,rq);
-		//	console.log(json[0]);
+			//	console.log(json[0]);
 			displayRelatedContent(json[0].related,rq);
 			break;
 		case 's':
@@ -304,26 +294,26 @@ function updateChoices(){
 		chosen['relatedForm']=0;
 	}
 	$('form').each(function(i){
-		var id=$(this).attr('id');
-		console.log('for form: '+id);
-		var c=chosen[id];
-		options=$(this).siblings('.choosed');
-		var buttons = $(this).children();
-		if(c == null){
+			var id=$(this).attr('id');
+			console.log('for form: '+id);
+			var c=chosen[id];
+			options=$(this).siblings('.choosed');
+			var buttons = $(this).children();
+			if(c == null){
 			//options.hide();
 			buttons.last().click();
-		}
-		else if(Number.isInteger(c)){
+			}
+			else if(Number.isInteger(c)){
 			console.log(buttons[c]);
 			buttons[c].click();
 			/*var a = options[c];
-			options.not(a).hide();
-			a.show();*/
-		}
-		else{
+			  options.not(a).hide();
+			  a.show();*/
+			}
+			else{
 			buttons.filter('#'+c).click();
-		}
-	});
+			}
+			});
 }
 function createTable(id,container){
 	var a =$("<table id='"+id+"'>");
@@ -358,7 +348,7 @@ function displayCode(json,tableElement,id){
 	code.attr('class','code choosed');
 	//code.insertBefore(i);
 	return json;
-	
+
 }
 function displayRelatedContent(json,rq){
 	//return '';
@@ -374,14 +364,14 @@ function displayChoicesForm(keys,container,id){
 	var k=Array.from(keys);
 	k.push(id+'none');
 	var ab=$(k.map(function(key){ 
-		var b=key.replace(/ /g,'_');
-		var i=$('<input>').attr('class','choices').attr('id',b).attr('name',id).attr('type','radio');
-		var j=$('<label>').attr('for',b).append(b);
-		return $('<div>').append(i).append(j).html();
-	}).join('<span> | </span>'))
+				var b=key.replace(/ /g,'_');
+				var i=$('<input>').attr('class','choices').attr('id',b).attr('name',id).attr('type','radio');
+				var j=$('<label>').attr('for',b).append(b);
+				return $('<div>').append(i).append(j).html();
+				}).join('<span> | </span>'))
 	ab.filter('label').last().empty().append('none')
-	//console.log(ab.html());
-	var y =$('<form>').attr('id',id).append(ab).prependTo(container);
+		//console.log(ab.html());
+		var y =$('<form>').attr('id',id).append(ab).prependTo(container);
 	updateChoices();
 }
 function dipslayRelatedContentTable(key,values,container){
@@ -395,10 +385,10 @@ function displayHorizontalTable(json,tableElement){
 	//console.log(json);
 	tableElement.addClass('horTable');
 	Object.keys(json).forEach(function(k){ 
-		if(!fieldIsEmpty(json[k]) && k !== 'related'){
+			if(!fieldIsEmpty(json[k]) && k !== 'related'){
 			displayHorizontalRow(k,json[k],tbody);
-		} 
-	});
+			} 
+			});
 }
 function fieldIsEmpty(value){
 	return (Array.isArray(value) && value.length == 0) || value == null;
@@ -412,21 +402,21 @@ function displayHorizontalRow(name,v,container){
 		v=makeHyperLinkedFields(v);
 	}
 	/*else{
-		if(v.indexOf('http://') != -1){
-			v=v.split(',').map(function(e){ return '<a href="'+e+'">'+e+'</a>';}).join('<span>, </span>')
-		}
-	}*/
+	  if(v.indexOf('http://') != -1){
+	  v=v.split(',').map(function(e){ return '<a href="'+e+'">'+e+'</a>';}).join('<span>, </span>')
+	  }
+	  }*/
 	$('<th>'+name+'</th><td>'+v+'</td>').appendTo(tr);
 }
 function getVideoId(url) {
-    var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-    var match = url.match(regExp);
+	var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+	var match = url.match(regExp);
 
-    if (match && match[2].length == 11) {
-        return match[2];
-    } else {
-        return 'error';
-    }
+	if (match && match[2].length == 11) {
+		return match[2];
+	} else {
+		return 'error';
+	}
 }
 function getVideoEmbed(url){
 	var id = getVideoId(url);
@@ -434,34 +424,34 @@ function getVideoEmbed(url){
 }
 function makeHyperLinkedFields(a){
 	return a.map(function(e){
-		var ida='';
-		var idb='';
-		var a='';
-		for(n in e){
+			var ida='';
+			var idb='';
+			var a='';
+			for(n in e){
 			if(n.indexOf('ID') != -1){
-				console.log(n+" "+e[n]);
-				ida='<a href="/d/'+n.substring(0,1)+'/'+e[n]+'">';	
-				idb='</a>';
+			console.log(n+" "+e[n]);
+			ida='<a href="/d/'+n.substring(0,1)+'/'+e[n]+'">';	
+			idb='</a>';
 			}
 			else if(n == 'src'){
-				a=getVideoEmbed(e[n]);
+			a=getVideoEmbed(e[n]);
 			}
 			else if(e[n].startsWith('http')){
-				ida='<a href="'+e[n]+'">';
-				idb='</a>';
-				a=a+" "+e[n];
+			ida='<a href="'+e[n]+'">';
+			idb='</a>';
+			a=a+" "+e[n];
 			}else{
-				a=a+" "+e[n];
+			a=a+" "+e[n];
 			}
-		}
-		return ida+a+idb;
+			}
+			return ida+a+idb;
 	}).join('<span>,</span>');
-	
+
 }
 function decodeEntities(encodedString) {
-    var textArea = document.createElement('textarea');
-    textArea.innerHTML = encodedString;
-    return textArea.value;
+	var textArea = document.createElement('textarea');
+	textArea.innerHTML = encodedString;
+	return textArea.value;
 }
 function displaySearch(json,rq){
 	searchResults=createTable('searchResults',content);
@@ -490,7 +480,7 @@ function displayTable(json,tableElement){
 	tableElement.addClass('vertTable');
 	displayHeaderRow(json[0],thead);
 	json.forEach(function(element){/*console.log(element);*/displayContentRow(element,tbody);});
-	
+
 }
 function displayHeaderRow(e,t){ displayRow(e,t,'th');}
 function displayContentRow(e,t){ displayRow(e,t,'td');}
@@ -498,7 +488,7 @@ function displayRow(e,t,columnTag){
 	//console.log(e);
 	var ct = columnTag;
 	var tr=$('<tr>')
-	var tp;
+		var tp;
 	var id;
 	for(c in e){
 		if(typeof e[c] === "object" && e[c] !== null){
@@ -520,10 +510,10 @@ function displayRow(e,t,columnTag){
 				switch(ct){
 					case 'th': v=c; break;
 					default : 
-						v=nulltoUnknown(e[c]);
-						if(c=='name'|| c=='title'){
-							v='<a href="/d/'+tp+'/'+id+'">'+v+'</a>';
-						}
+						   v=nulltoUnknown(e[c]);
+						   if(c=='name'|| c=='title'){
+							   v='<a href="/d/'+tp+'/'+id+'">'+v+'</a>';
+						   }
 				};
 				$('<'+ct+'>'+v+'</'+ct+'>').appendTo(tr);
 			}
@@ -537,9 +527,4 @@ function nulltoUnknown(s){
 	}
 	return s
 }
-  </script>
-  </head>
-  <body>
-  </body>
-</html>
 
